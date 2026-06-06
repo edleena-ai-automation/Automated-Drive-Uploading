@@ -1,0 +1,187 @@
+{
+  "name": "automated drive uploading",
+  "nodes": [
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1f4aaOGFR3AsebLNDJzdgzijTq2dXG3kSEMdHF5jx1cM",
+          "mode": "list",
+          "cachedResultName": "AI automation material",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1f4aaOGFR3AsebLNDJzdgzijTq2dXG3kSEMdHF5jx1cM/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 2120708367,
+          "mode": "list",
+          "cachedResultName": "Sheet2",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1f4aaOGFR3AsebLNDJzdgzijTq2dXG3kSEMdHF5jx1cM/edit#gid=2120708367"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Date": "={{ $now.format('dd/MM/yyyy') }}",
+            "Time": "={{ $now.format('HH:mm:ss') }}",
+            "Type": "={{ $json.name.split('.').pop() }}",
+            "name": "={{ $json.name }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Date",
+              "displayName": "Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Time",
+              "displayName": "Time",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "name",
+              "displayName": "name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Type",
+              "displayName": "Type",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        224,
+        0
+      ],
+      "id": "d987f0ca-f67e-44eb-b20f-ec84d0180ae7",
+      "name": "Append row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "omOKG4SeDbJqowv8",
+          "name": "Google Sheets OAuth2 API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "edleenaaamir@gmail.com",
+        "subject": "Material Added Successfully",
+        "emailType": "text",
+        "message": "=your material {{ $json.name }}  has been added to your drive. ",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        448,
+        0
+      ],
+      "id": "e7023b74-716f-4465-a935-77ea66884beb",
+      "name": "Send a message",
+      "webhookId": "5bad1169-a05d-4d36-8df4-76832ea67008",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "JaqPJZaci4NqoRYO",
+          "name": "Gmail OAuth2 API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "triggerOn": "specificFolder",
+        "folderToWatch": {
+          "__rl": true,
+          "value": "1rRzOwWUpB7Zz38zAnzN6xrRiYJ32C3tw",
+          "mode": "list",
+          "cachedResultName": "AI Automation material",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/1rRzOwWUpB7Zz38zAnzN6xrRiYJ32C3tw"
+        },
+        "event": "fileCreated",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDriveTrigger",
+      "typeVersion": 1,
+      "position": [
+        -32,
+        0
+      ],
+      "id": "1ee8b740-f8cd-4a06-9f60-341e1f2214c9",
+      "name": "Google Drive Trigger",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "R3h6qNnkL8caPYKt",
+          "name": "Google Drive OAuth2 API"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Append row in sheet": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Drive Trigger": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "f58cb041-4d1d-4c90-97b8-dd05710185f3",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "3d8c82d7c1367d7ed4d1a22c948b1f40aab034344226ee303cc3f76dc5a1c16e"
+  },
+  "id": "MK54NF04XXAXbozj",
+  "tags": []
+}
